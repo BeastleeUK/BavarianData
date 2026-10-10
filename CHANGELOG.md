@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.17-beta.3] - 2026-10-11
+
 ### Added
 - **A trip journal for older cars that report only once parked** (discussion
   #56). Cars with iDrive 6 and older send odometer, fuel and position in one burst
