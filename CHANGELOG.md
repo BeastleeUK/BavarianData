@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.17-beta.4] - 2026-10-11
+
 ### Fixed
 - **Trips from end-of-trip reports now start with the right charge on electric
   cars and plug-in hybrids.** Beta 3 took the battery level from the car's
