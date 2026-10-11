@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.18-beta.2] - 2026-10-11
+
 ### Changed
 - **The wallbox meter, charging losses and evcc publishing are now per car too.**
   With more than one car on the account, **Configure → Charging costs & history**
