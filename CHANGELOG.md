@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.18-beta.1] - 2026-10-11
+
 ### Changed
 - **Trip settings are now per car.** With more than one car on the account,
   **Configure → Trips** first asks which vehicle, and each car keeps its own work
