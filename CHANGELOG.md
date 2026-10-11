@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.17] - 2026-10-11
+
 Promotes 0.9.17-beta.1 to beta.5. Older cars that report only once parked get a trip journal and a logbook event. At home, your wallbox meter now drives the state-of-charge estimate and a new time-to-target prediction. The card draws a new car, and its maps work again on Home Assistant 2026.10.
 
 ### Added
