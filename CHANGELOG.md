@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.17-beta.5] - 2026-10-11
+
 ### Fixed
 - **The card's maps show their routes and destinations again on Home Assistant
   2026.10.** Home Assistant 2026.10 redrew its maps, and the card's overlays
