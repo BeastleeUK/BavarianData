@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.18-beta.4] - 2026-10-12
+
 ### Fixed
 - **Right-hand-drive cars show their doors and windows on the correct side.**
   BMW reports the side doors and windows by seat (driver, passenger), and the
