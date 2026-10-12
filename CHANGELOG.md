@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.18-beta.5] - 2026-10-12
+
 ### Fixed
 - **Charges away from home no longer get your house's energy mix or your home
   tariff.** The solar share and the cost were sampled from your PV, house battery
