@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.18-beta.3] - 2026-10-12
+
 ### Added
 - **A route for cars that report only when parked, from a phone that rides
   along** (discussion #54). With **Trip detection** on **End-of-trip reports** and
