@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.18-beta.6] - 2026-10-13
+
 ### Fixed
 - **A petrol car no longer shows a flat battery at the end of each trip.** BMW
   sends *Battery charge level at end of trip* as 0 to some cars that have no
