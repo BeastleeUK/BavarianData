@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.19-beta.3] - 2026-10-14
+
 ### Fixed
 - **A lease's allowance counts whole months.** A 36-month lease at 15,000 km a
   year showed 44,969 km instead of 45,000.
