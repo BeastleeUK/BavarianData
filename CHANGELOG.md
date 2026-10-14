@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.19-beta.2] - 2026-10-14
+
 ### Added
 - **A service calendar for each car.** The service items your car tracks (brake
   fluid, vehicle check, statutory inspection, …) as all-day events in Home
