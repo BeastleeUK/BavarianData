@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.19-beta.1] - 2026-10-14
+
 ### Changed
 - **The card remembers how you left the car.** The angle you turned the 360°
   picture to, whether you were looking inside or out, and where you were looking
