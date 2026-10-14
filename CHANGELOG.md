@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.18-beta.9] - 2026-10-14
+
 ### Added
 - **The configurator picture now follows the car.** With Configure → **Vehicle
   image** set to BMW's configurator, the overview's 360° view switches to BMW's
