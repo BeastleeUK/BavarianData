@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.18-beta.7] - 2026-10-14
+
 ### Added
 - **A MINI Countryman is drawn as one.** The tires and closures views drew a BMW
   sedan for every car. A Countryman now gets its own top-down drawing: boxier,
