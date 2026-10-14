@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.19-beta.4] - 2026-10-14
+
 ### Changed
 - **The Mileage view estimates this year when recording began mid-year.**
   Instead of only the distance since BavarianData started recording, the
