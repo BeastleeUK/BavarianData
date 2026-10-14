@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.18-beta.8] - 2026-10-14
+
 ### Added
 - **Your exact car, all the way round.** Configure → **Vehicle image** (until now
   *Fetch vehicle image*) can take the car's picture from BMW's online
