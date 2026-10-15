@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.20-beta.3] - 2026-10-16
+
 ### Added
 - **Smart charging with EV Smart Charging or Predbat.** A new manual page
   says which BavarianData entities to give a charge planner: the predicted
@@ -35,6 +37,15 @@ stable release (v0.8.1); releases before that used auto-generated notes.
   conversation agent answer questions about your driving, charging and
   mileage from BavarianData's history, at no API quota and without the VIN.
 
+### Changed
+- **The configurator picture at night is lighter, and a MINI keeps its
+  color.** After sunset the car now stands in a dark room with a pool of light
+  under it, in place of BMW's near-black studio with its rings of floor light.
+  A MINI is now fetched the way MINI's own configurator shows it at night, lit
+  from the front, so a blue car stays blue rather than turning into a dark
+  grey shape (#100, thanks @BeastleeUK). Each car's pictures are fetched again
+  once in the background after updating; it costs no API quota.
+
 ### Fixed
 - **A UK install's mileage allowance is entered in miles.** Configure →
   Mileage allowance and the service calendar followed Home Assistant's unit
@@ -43,19 +54,11 @@ stable release (v0.8.1); releases before that used auto-generated notes.
   plan. They now use the car's own unit, the same rule as the card: the unit
   its odometer sensor is shown in, else the car's display setting, else the
   unit system. If you entered an allowance in miles on a metric install, open
-  the screen once and enter it again (#126).
+  the screen once and enter it again (#126, thanks @BeastleeUK for the
+  report and the fix).
 - **The *Stop charging at target %* blueprint sends its notification.** The
   optional notify service was never passed through, so the message after the
   charger switched off didn't arrive. Re-import the blueprint to get the fix.
-
-### Changed
-- **The configurator picture at night is lighter, and a MINI keeps its
-  colour.** After sunset the car now stands in a dark room with a pool of light
-  under it, in place of BMW's near-black studio with its rings of floor light.
-  A MINI is now fetched the way MINI's own configurator shows it at night, lit
-  from the front, so a blue car stays blue rather than turning into a dark
-  grey shape (#100, thanks @BeastleeUK). Each car's pictures are fetched again
-  once in the background after updating; it costs no API quota.
 
 ## [0.9.20-beta.2] - 2026-10-15
 
