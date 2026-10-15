@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.20-beta.1] - 2026-10-15
+
 ### Added
 - **The Equipment view shows a picture of each option.** With the BMW
   configurator picture source, the paint, wheels and roof get a color swatch
