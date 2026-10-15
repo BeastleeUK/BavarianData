@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.20-beta.2] - 2026-10-15
+
 ### Fixed
 - **BMW cars get their paint, wheel and trim swatches in the Equipment view.**
   BMW's configurator names those pictures differently for BMW than for MINI,
