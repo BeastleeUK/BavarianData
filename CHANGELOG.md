@@ -9,7 +9,167 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.19] - 2026-10-15
+
+Promotes 0.9.18-beta.1 to 0.9.19-beta.4. BMW's configurator can now draw your exact car: a 360° view that follows day, night and the lights, the interior and the factory equipment by name. New are a service calendar, a mileage view with lease or yearly allowance, per-car trip and wallbox settings, a phone-drawn route for cars that report only when parked, and a home-only charging series for the Energy dashboard. One breaking change: BMW's basic data now lives on the vehicle image and device tracker only.
+
+### Breaking
+- **BMW's basic data is on two entities, not all of them** (0.9.19-beta.1) (thanks
+  @BeastleeUK, #100). `vehicle_basic_data` and `vehicle_basic_data_raw` (model,
+  drivetrain, steering side, option codes, …) were attached to every
+  BavarianData entity, a few hundred copies of the same thing in each state
+  update. They now live on the car's **vehicle image** and **device tracker**
+  only, and the image keeps them out of the recorder's history. If a template
+  reads them from a sensor, point it at the image or the tracker instead.
+
+### Added
+- **A route for cars that report only when parked, from a phone that rides
+  along** (0.9.18-beta.3) (discussion #54). With **Trip detection** on **End-of-trip reports** and
+  **Record route** on, **Configure → Trips** now asks for a **Phone** (its
+  `device_tracker` from the Home Assistant app) and, optionally, a sensor that says
+  the **Phone is in the car** (Android Auto, Bluetooth, CarPlay). The phone's
+  positions draw the trip on the map; distance, duration and charge still come
+  from the car. A phone that doesn't end up where the car parked was not in it,
+  and its positions are dropped. The in-car sensor turning on marks the trip's
+  start, so no automation is needed for it.
+- **A home-only charging series for the Energy dashboard:** (0.9.18-beta.5)
+  `bavariandata:charging_energy_home_<vin>` (*charging energy at home*). Home
+  Assistant treats an individual device as part of what your house used, so a
+  fast charge on the highway does not belong there. Switch your Energy
+  dashboard's individual device to this series. The existing series and
+  **Charged Energy (Total)** still count every charge.
+- **The diagnostics download describes how your car reports** (0.9.18-beta.6). Per car, since the
+  last restart: whether the charge level streams or only comes with a fetch,
+  whether the car reports while driving or once after parking, how often it
+  sends, which fields repeat unchanged, and which arrive stamped days old. Only
+  counts and gaps, no values or positions. Cars differ in all of this, and one
+  download now answers what used to take several questions.
+- **A MINI Countryman is drawn as one** (0.9.18-beta.7). The tires and closures views drew a BMW
+  sedan for every car. A Countryman now gets its own top-down drawing: boxier,
+  with a clamshell hood, roof rails and the two-panel glass roof. Doors still
+  swing open, glass still lights up and tires still take their color. The card
+  picks it from the model name in BMW's vehicle data. **Car shape** in the card
+  editor (`shape:` in YAML) forces either drawing. Other models, including the
+  other MINIs, keep the sedan for now. Thanks to @BeastleeUK for the drawing it
+  is based on (#100).
+- **Your exact car, all the way round** (0.9.18-beta.8). Configure → **Vehicle image** (until now
+  *Fetch vehicle image*) can take the car's picture from BMW's online
+  configurator instead of BMW CarData. The configurator draws your car from the
+  model, paint and factory options in its basic vehicle info, so the wheels,
+  trim packages and paint are yours. The card's overview shows it as a 360°
+  view you turn by dragging, and the top-down car in the tires and closures
+  views takes on its real paint color. It spends none of your 50 daily requests,
+  but it is BMW's configurator service, not part of CarData, so BMW can change
+  or block it at any time. That's why it is off by default, and the official
+  picture comes back whenever the configurator has none. It covers BMW and MINI
+  cars, including models no longer sold.
+- **The configurator picture now follows the car** (0.9.18-beta.9). With Configure → **Vehicle
+  image** set to BMW's configurator, the overview's 360° view switches to BMW's
+  night scene after sunset at home, and shows the car with its lights on while
+  it reports them on. Badges under the name say when a door, the trunk or the
+  hood is open, windows are open, the car is unlocked or it is charging; while
+  something is open, the top-down drawing appears in the corner with the open
+  part lit up.
+- **Look inside** (0.9.18-beta.9). A seat button on the overview switches to a 360° panorama of
+  the interior, turned by dragging. It shows BMW's default trim: BMW's vehicle
+  data doesn't say which upholstery a car has. The card remembers the angle
+  you left the 360° view at, and whether you were looking inside or out, per
+  browser.
+- **Your car's equipment, by name** (0.9.18-beta.9) (`view: equipment`). The card lists the
+  factory options the car was built with, from its paint and wheels to the
+  sound system and driving assistants, named by BMW's configurator in the
+  language BMW's market for the car offers. Technical codes are folded away.
+- **A real top view for MINIs** (0.9.18-beta.9). BMW draws MINIs from above, so the tires view
+  shows that photo instead of the drawing. There is no such view for BMW models.
+- **A service calendar for each car** (0.9.19-beta.2). The service items your car tracks (brake
+  fluid, vehicle check, statutory inspection, …) as all-day events in Home
+  Assistant's calendar, on the 1st of the month BMW says they're due. An item
+  with only a distance left is placed by your own average km a day over the
+  last 90 days, and says it's an estimate. It's disabled by default (enable
+  *Service Calendar* on the car's device) and costs no quota.
+- **How far you drive, and a mileage allowance** (0.9.19-beta.2). A new **Mileage** view on the
+  card shows this month, this year, your pace and the last twelve months, read
+  off the car's own odometer, for every drivetrain and at no quota. Under
+  Configure → **Mileage allowance** each car can get a **lease** (start, end,
+  allowance per year, odometer at handover) or a **yearly limit** that renews
+  every year, like your insurance's annual mileage. The view then shows whether
+  you're under or over plan, the distance a day left and where your pace lands.
+  A lease's hand-back day goes into the service calendar. There's also a
+  *Mileage Allowance Balance* sensor (disabled by default) and a
+  `get_mileage_report` service. When recording began mid-year, *This year*
+  shows an estimate ("≈ 9,640 km") with the recorded distance underneath.
+
+### Changed
+- **Trip settings are now per car** (0.9.18-beta.1). With more than one car on the account,
+  **Configure → Trips** first asks which vehicle, and each car keeps its own work
+  zone, default type, commute stop tolerance, trip detection and route recording.
+  A company car and a private one can be filed differently, and an older car that
+  reports only once parked no longer forces every car on the account into
+  **End-of-trip reports** (discussion #56). **Resolve addresses** and
+  **Trip-capture diagnostics** stay shared, in a collapsed **All vehicles** section.
+  Single-car accounts see the same form as before, with a much shorter
+  description, and your current settings carry over unchanged.
+- **The wallbox meter, charging losses and evcc publishing are now per car too** (0.9.18-beta.2).
+  With more than one car on the account, **Configure → Charging costs & history**
+  and **Configure → evcc / wallbox bridge** first ask which vehicle. Each car can
+  have its own wallbox meter, so two cars charging at once at two wallboxes each
+  follow their own meter; two cars sharing one meter still leave it to neither.
+  A car charged elsewhere can stay off the MQTT broker, and switching one car off
+  removes its topics. The price and the bridge's topic settings stay shared.
+  Both screens have much shorter descriptions; the details moved under the
+  fields they belong to. Single-car accounts keep their settings unchanged.
+- **evcc bridge: away from home, the car's `status` reads `ErrNotAvailable`
+  while it is plugged in** (0.9.18-beta.5). evcc uses a vehicle's status only to guess which car
+  just plugged into a wallbox, and a car charging at a public charger could be
+  taken for a guest's car at yours. `ErrNotAvailable` is evcc's own "no value",
+  so it leaves the car out quietly. `plugged`, `charging` and the `state`
+  document keep the real values; `state` adds `"away": true`.
+- **A failed basic-data request is now logged as a warning** (0.9.18-beta.6). Without basic data
+  a car has no model name, drivetrain or steering side, and the log said nothing
+  unless debug logging was on.
+
 ### Fixed
+- **Clearing the work zone under Configure → Trips now clears it** (0.9.18-beta.1). The old zone
+  came back after the next restart.
+- **Clearing the wallbox energy sensor under Configure → Charging costs now
+  clears it** (0.9.18-beta.2). The old meter stayed bound.
+- **Right-hand-drive cars show their doors and windows on the correct side** (0.9.18-beta.4).
+  BMW reports the side doors and windows by seat (driver, passenger), and the
+  **Security & closures** view always drew the driver's side on the left. On a
+  UK car, opening the driver's door showed the left door open. The view now reads
+  the steering side from BMW's basic data. If that is missing or wrong, set
+  **Steering wheel** in the card editor (`steering: left` or `right`). The basic
+  data is already stored, so this needs no new request to BMW. Thanks to
+  @karpilin for the fix (#95).
+- **Door and window names no longer say "left" and "right" for the driver's and
+  passenger's side** (0.9.18-beta.4). BMW's German, French, Italian, Spanish, Polish, Portuguese,
+  Czech and Swedish names put the driver's door at the front left. They now say
+  driver or passenger side, as the English names already did, e.g. *Status der
+  Tür Fahrerseite vorn*. Only the displayed names change; entity IDs stay the
+  same.
+- **Charges away from home no longer get your house's energy mix or your home
+  tariff** (0.9.18-beta.5). The solar share and the cost were sampled from your PV, house battery
+  and grid sensors and your tariff wherever the car charged. A DC fast charge
+  could show energy "from the house battery", and a public charge was billed at
+  your home price. Now a charge the car places outside your Home zone records no
+  mix and no tariff cost, like the wallbox meter already did. Its energy still
+  counts. Importing BMW's charging history no longer applies a fixed tariff to
+  such charges either. Stored charges are repaired when Home Assistant starts.
+  Thanks to @erwinweiss1955 for the detailed report (#97).
+- **Charging cost per 100 km is no longer too low when you also charge in
+  public** (0.9.18-beta.5). Only charges at home have a cost now, but the distance counts every
+  kilometer. The figure is shown only when every charge in the month has a cost,
+  and the month's cost is marked `partial` when it leaves a charge out.
+- **A petrol car no longer shows a flat battery at the end of each trip** (0.9.18-beta.6). BMW
+  sends *Battery charge level at end of trip* as 0 to some cars that have no
+  high-voltage battery. As a battery sensor at 0 %, that set off low-battery
+  alerts. A zero there is never a real reading (no car with that battery ends a
+  trip at 0 %), so it is now ignored. A sensor that already shows 0 becomes
+  unknown. Thanks to @BeastleeUK (#100).
+- **The tires view shows remaining tire life in miles where you use miles** (0.9.18-beta.6). It
+  always said km. It now follows your odometer's unit, so an install that keeps
+  the metric system but shows distances in miles gets miles too. Thanks to
+  @BeastleeUK (#100).
 - **A partly open side window now says "Partially open", not "Tilted".** The
   closures list used the sunroof's word for it. The sunroof is still "Tilted".
   Thanks @BeastleeUK (#100).
@@ -139,7 +299,7 @@ stable release (v0.8.1); releases before that used auto-generated notes.
   alerts. A zero there is never a real reading (no car with that battery ends a
   trip at 0 %), so it is now ignored. A sensor that already shows 0 becomes
   unknown. Thanks to @BeastleeUK (#100).
-- **The tyre view shows remaining tyre life in miles where you use miles.** It
+- **The tires view shows remaining tire life in miles where you use miles.** It
   always said km. It now follows your odometer's unit, so an install that keeps
   the metric system but shows distances in miles gets miles too. Thanks to
   @BeastleeUK (#100).
