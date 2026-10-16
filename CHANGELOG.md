@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.20-beta.7] - 2026-10-16
+
 ### Fixed
 - **The daily refresh works again, for every car.** Since 16 October BMW
   refuses the service items (Condition Based Service) with a bare "Bad
