@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.20-beta.5] - 2026-10-16
+
 ### Fixed
 - **Equipment names for cars missing from their own market's data.** BMW's
   name data for the UK has no F40 118i, so the Equipment view showed only codes.
