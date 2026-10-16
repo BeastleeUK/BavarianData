@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.20-beta.6] - 2026-10-16
+
 ### Changed
 - **A shorter Configure menu.** It lists the settings, plus two submenus for
   the one-off tools: **Fetch from BMW now** (Discover vehicles and the five
