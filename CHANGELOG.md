@@ -9,10 +9,115 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
-## [0.9.20-beta.7] - 2026-10-16
+## [0.9.20] - 2026-10-16
+
+Promotes 0.9.20-beta.1 to beta.7. The daily refresh works again for every car after BMW began refusing the service-items field on 16 October, plus option pictures in the Equipment view, new blueprints and a smart-charging guide.
+
+### Added
+- **The Equipment view shows a picture of each option** (beta.1). With the BMW
+  configurator picture source, the paint, wheels and roof get a color swatch
+  and the rest of the equipment a small photo, wherever BMW has one (about four
+  in five options on a MINI Countryman, 56 of 65 on a BMW i5). They are fetched with the other
+  configurator pictures: when you press **Submit** under Configure → Vehicle
+  image, and once when a car is first added. Nothing fetches them on its own, so
+  press **Submit** once after updating to get them. Prefer the plain list? Turn
+  off **Show option pictures** in the card editor (`pictures: false`). Checked
+  on a MINI Countryman and a BMW i5.
+  Thanks @BeastleeUK (#120).
+- **Smart charging with EV Smart Charging or Predbat** (beta.3). A new manual page
+  says which BavarianData entities to give a charge planner: the predicted
+  state of charge (it keeps counting when BMW goes quiet mid-charge), the
+  target and the cable. The planner switches your wallbox; the car is never
+  commanded.
+- **Blueprint: mirror the charging cable into a switch** (beta.3). Turns a switch on
+  when the cable goes in at home and off when it comes out, for EV Smart
+  Charging's *EV connected* switch or any planner that needs it.
+- **Blueprint: car arriving home soon** (beta.3). Runs your actions once per drive
+  when the car gets closer to home than you set, by Waze or Google Maps travel
+  time or by Home Assistant's own Proximity distance. It can't know where
+  you're going, so pick the zones your drives home start from (Work, for
+  example) to skip drives that only pass nearby.
+- **Blueprint: rain coming, a window is open** (beta.3). Checks your weather forecast
+  while a window, the sunroof or the tailgate window stays open, and warns
+  before the rain.
+- **Blueprint: frost tonight, the car isn't plugged in** (beta.3). An evening reminder
+  to plug in when the night drops to your frost limit.
+- **Blueprint: one tire losing pressure** (beta.3). Compares the tires on each axle and
+  warns when one stays clearly below its partner, usually well before the
+  car's own warning.
+- **Ask Assist about your car** (beta.3). Three ready-made scripts let an AI
+  conversation agent answer questions about your driving, charging and
+  mileage from BavarianData's history, at no API quota and without the VIN.
+
+### Changed
+- **The configurator picture at night is lighter, and a MINI keeps its
+  color** (beta.3). After sunset the car now stands in a dark room with a pool of light
+  under it, in place of BMW's near-black studio with its rings of floor light.
+  A MINI is now fetched the way MINI's own configurator shows it at night, lit
+  from the front, so a blue car stays blue rather than turning into a dark
+  grey shape (#100, thanks @BeastleeUK). Each car's pictures are fetched again
+  once in the background after updating; it costs no API quota.
+- **A shorter Configure menu** (beta.6). It lists the settings, plus two submenus for
+  the one-off tools: **Fetch from BMW now** (Discover vehicles and the five
+  fetches, each of which uses BMW's daily requests) and **Connection**
+  (re-authorize, refresh tokens, reset the telemetry container, debug logging).
+  Nothing else about those screens changed.
 
 ### Fixed
-- **The daily refresh works again, for every car.** Since 16 October BMW
+- **A UK install's mileage allowance is entered in miles** (beta.3). Configure →
+  Mileage allowance and the service calendar followed Home Assistant's unit
+  system alone, so on a metric install (as the UK keeps for °C and litres) an
+  allowance typed in miles was saved as km and the car showed as far over
+  plan. They now use the car's own unit, the same rule as the card: the unit
+  its odometer sensor is shown in, else the car's display setting, else the
+  unit system. If you entered an allowance in miles on a metric install, open
+  the screen once and enter it again (#126, thanks @BeastleeUK for the
+  report and the fix).
+- **The *Stop charging at target %* blueprint sends its notification** (beta.3). The
+  optional notify service was never passed through, so the message after the
+  charger switched off didn't arrive. Re-import the blueprint to get the fix.
+- **Configurator picture for cars whose options come in a different order** (beta.4).
+  BMW's configurator refuses a car's factory options unless they are sorted,
+  and some cars (an F40 1 Series, for one) report theirs unsorted, so the
+  configurator said it had no picture of them. They're now sorted, and the log
+  now shows BMW's own reason when it refuses a request (#130, thanks
+  @georgewalley).
+- **One car the configurator can't draw no longer blocks the others** (beta.4). On
+  Configure → Vehicle image, the configurator is saved when at least one car
+  can be drawn. Any car it can't draw keeps its official picture, and a closing
+  message names it. A car without any picture gets its official one, which
+  costs one request. The same goes for a car added later (#130).
+- **Equipment names for cars missing from their own market's data** (beta.5). BMW's
+  name data for the UK has no F40 118i, so the Equipment view showed only codes.
+  Now, when the car's market and Germany have no names, the other markets that
+  use the same language are asked too: Malta, Cyprus and South Africa list that
+  car in English (#130, thanks @georgewalley).
+- **Failed BMW requests now say why** (beta.5). A refused REST call logged only
+  `HTTP 400`, because BMW's error code sat under a key we didn't read. The log
+  now shows BMW's error code and message, with the VIN masked (#130).
+- **A car whose first data request failed now gets its name and model** (beta.6). Setup
+  asked BMW for a car's basic data (name, model, drivetrain, steering side,
+  picture) only if its first telematics fetch had worked. When BMW refused that
+  fetch, the car stayed a bare VIN, and nothing asked again. Now setup always
+  asks, and every start asks once more for any car still without it (one
+  request per such car).
+- **Fetching data no longer drops the live stream** (beta.6). Every REST request renewed
+  the login first, and each renewal makes the stream reconnect, which leaves it
+  deaf for about ten seconds. A manual fetch, or the catch-up after a restart
+  (once per car), cost one such gap each. Requests now use the current login,
+  which the regular 45-minute renewal keeps fresh.
+- **Container requests count against the daily quota** (beta.6). Setting up or replacing
+  the telematics container took requests BMW counts but the integration didn't,
+  so the quota sensor showed more requests left than BMW allowed.
+- **BMW's pixelated stand-in is no longer taken for the car's picture** (beta.6). For
+  some model keys it has no car for, BMW's configurator answers with a blocky
+  grey SUV that turns like a real one. It's now recognised from the first
+  frame, so the car keeps its official picture instead (#132).
+- **Closing the setup or Configure dialog mid-way now cleans up after itself** (beta.6).
+  Home Assistant never ran the flow's teardown, so a dialog closed while it
+  waited for the in-browser activator left its one-time link registered and
+  logged a "coroutine was never awaited" warning (seen in #142's log).
+- **The daily refresh works again, for every car** (beta.7). Since 16 October BMW
   refuses the service items (Condition Based Service) with a bare "Bad
   request", and because a refusal of one field fails the whole request, every
   car lost door locks, charge level and everything else BMW doesn't stream.
@@ -25,10 +130,12 @@ stable release (v0.8.1); releases before that used auto-generated notes.
   report).
 
 ### Removed
-- **beta.6's fallback to a smaller container.** It held the refused field too,
-  so it never helped. Installs that created it delete it on their first
-  refresh; the container is replaced once anyway, because what it holds
-  changed.
+- **The "New Extrapolation Testing sensor"** (beta.6). An experiment from the project
+  this integration grew out of: a second state-of-charge estimate that took the
+  car's average auxiliary power off the charging power. It was never documented
+  and is superseded by *State of charge (predicted by the integration)*. It is
+  removed from existing installs on the first start; if an automation or
+  dashboard used it, switch to the predicted state of charge.
 
 ## [0.9.20-beta.6] - 2026-10-16
 
