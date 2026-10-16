@@ -9,6 +9,8 @@ stable release (v0.8.1); releases before that used auto-generated notes.
 
 ## [Unreleased]
 
+## [0.9.20-beta.4] - 2026-10-16
+
 ### Fixed
 - **Configurator picture for cars whose options come in a different order.**
   BMW's configurator refuses a car's factory options unless they are sorted,
